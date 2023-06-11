@@ -1,13 +1,15 @@
-#include "util.h"
 #include <utility.h>
 #include "unistd.h"
-
+#include "server_boot.h"
 static inline void main_init(void);
 static inline void main_destroy(void);
 
 int main() {
+    ServerS server;
     main_init();
-    LOG_TRACE("Test");
+    server_boot(&server);
+    sleep(2);
+    server_close(&server);
     main_destroy();
 
 
