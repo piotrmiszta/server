@@ -7,9 +7,22 @@
 #include <cmocka.h>
 #include "util_list.h"
 
+
+
 typedef struct test {
     int k;
 }test;
+
+static inline int cmp(void* a, void* b) {
+    test* p = a;
+    test* p2 = b;
+    if(p->k == p2->k) {
+        return 0;
+    }
+    else {
+        return -1;
+    }
+}
 
 static void push_pop_back (void** state) {
     ListS* list = util_list_create(free, NULL);
@@ -100,6 +113,21 @@ static void push_destroy (void** state) {
     util_list_destroy(list);
 }
 
+static void push_find (void** state) {
+    ListS* list = util_list_create(free, cmp);
+    for(int i = 0; i < 10; i++) {
+        test* temp;
+        temp = calloc(1 , sizeof(test));
+        temp->k = i;
+        util_list_push_back(list, temp);
+    }
+    test* t = malloc(sizeof(test));
+    t->k = 3;
+    assert_int_equal((int)util_list_get_size(list), 10);
+    util_list_push_index(list, t, 5);
+    assert_int_equal(3, util_list_find(list, t));
+    util_list_destroy(list);
+}
 
 
 int main(void)
@@ -110,6 +138,8 @@ int main(void)
     unit_test(push_destroy),
     unit_test(push_pop_index),
     unit_test(push_pop_index_2),
+    unit_test(push_find),
+
 
   };
 

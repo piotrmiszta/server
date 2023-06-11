@@ -10,13 +10,13 @@ typedef struct NodeS{
 
 typedef struct ListS{
     void (*free_fun)(void*);
-    int (*comp_fun)(void*);
+    int (*comp_fun)(void* a, void* b);
     size_t size;
     NodeS* head;
     NodeS* tail;
 }ListS;
 
-ListS* util_list_create(void (*free_fun)(void*), int (*comp_fun)(void*)) {
+ListS* util_list_create(void (*free_fun)(void*), int (*comp_fun)(void* a, void* b)) {
     ListS* list = malloc(sizeof(ListS));
     assert_ss(list);
     list->comp_fun = comp_fun;
@@ -232,14 +232,80 @@ void* util_list_pop_index(ListS* list, size_t index) {
     else{
         return NULL;
     }
-
 }
 
-void* util_list_get_back(ListS* list);
-void* util_list_get_front(ListS* list);
-void* util_list_get_index(ListS* list, size_t index);
+void* util_list_get_back(ListS* list) {
+    if(list) {
+        if(list->tail) {
+            return list->tail->data;
+        }
+        else {
+            return NULL;
+        }
+    }
+    else {
+        return NULL;
+    }
+}
+void* util_list_get_front(ListS* list) {
+    if(list) {
+        if(list->head) {
+            return list->head->data;
+        }
+        else {
+            return NULL;
+        }
+    }
+    else {
+        return NULL;
+    }
+}
+void* util_list_get_index(ListS* list, size_t index) {
+    if(list) {
+        if(index < list->size) {
+            if(index == 0) {
+                return util_list_get_front(list);
+            }
+            else if(index == list->size-1) {
+                return util_list_get_back(list);
+            }
+            else {
+                NodeS* temp = list->head;
+                for(int i = 0; i < index; i++) {
+                    temp = temp->next;
+                }
+                return temp->data;
+            }
+        }
+        else {
+            return NULL;
+        }
+    }
+    else{
+        return NULL;
+    }
+}
 
-int util_list_find(ListS* list, void* data);
+int util_list_find(ListS* list, void* data) {
+    if(list) {
+        if(list->comp_fun == NULL) {
+            return -1;
+        }
+        NodeS* node = list->head;
+        for(int i = 0; i < list->size; i++) {
+            int result = list->comp_fun(node->data, data);
+            node = node->next;
+            if(result == 0) {
+                return i;
+            }
+        }
+    }
+    else{
+        return -1;
+    }
+    return -1;
+}
+
 size_t util_list_get_size(ListS* list) {
     if(list) {
         return list->size;
