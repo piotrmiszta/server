@@ -28,6 +28,7 @@ int server_boot(ServerS* server_params) {
         }
         thrd_create(&thread_server_listen, server_listen_start_thread, server_params);
         thrd_create(&thread_server_menagment, server_menagment_start_thread, server_params);
+        LOG_INFO("Successful booting server !!!");
         return SUCCESS;
     }
 }

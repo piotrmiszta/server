@@ -10,7 +10,8 @@
 #define ELIST       (-5) /** @def ERROR WHEN LISTENING */
 #define EACCT       (-6) /** @def ERROR WHEN ACCEPTING NEW CLIENT */
 
-
+#define ELARG       (-20) /** @def NULL ARGUEMNT 'LIST' PASSED TO LIST FUNCTION */
+#define ELRAN       (-21) /** @def LIST INDEX IS OUT OF RANGE */
 #define assert_ss(cond)   assert(cond)
 
 #endif //UTIL_ERRROR_CODES_H_

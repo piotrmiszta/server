@@ -7,6 +7,7 @@
 static bool server_menagment_run = 1;
 
 int server_menagment_start_thread(void* arg) {
+    LOG_INFO("Thread: server menagment started, thread id = %d", thrd_current());
     (void) arg;
     while(server_menagment_run) {
         sleep(1);

@@ -10,5 +10,4 @@ add_library(serverlib STATIC ${src} ${HEADER_LIST})
 
 
 target_include_directories(serverlib PUBLIC ${INCLUDE_DIR}/server/
-											${INCLUDE_DIR}/errno
 											${INCLUDE_DIR}/util)

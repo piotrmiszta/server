@@ -12,6 +12,8 @@ static bool server_listen_run = 1;
 static inline int server_listen_listen(ServerS* server_param);
 
 int server_listen_start_thread(void* arg) {
+    assert_ss(arg);
+    LOG_INFO("Thread: server listen started, thread id = %d", thrd_current());
     ServerS* server_param = arg;
     while(server_listen_run) {
         server_listen_listen(server_param);
