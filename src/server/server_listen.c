@@ -55,7 +55,7 @@ static inline int server_listen_listen(ServerS* server_param) {
         }
         else {
             LOG_DEBUG("Connection accepted socket: %d", client_info->sock);
-            free(client_info);
+            free(client_info); // this is temporary solution for valgrind
             return SUCCESS;
         }
     }

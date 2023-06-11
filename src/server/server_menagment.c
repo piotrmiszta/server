@@ -12,6 +12,7 @@ int server_menagment_start_thread(void* arg) {
         sleep(1);
         LOG_DEBUG("Server menagment thread");
     }
+    LOG_INFO("Closing server menagment thread");
     return 0;
 }
 
