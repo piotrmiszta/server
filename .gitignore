@@ -3,4 +3,4 @@ cmake/
 test_build/
 *.log
 *.txt
-
+.vscode
