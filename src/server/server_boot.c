@@ -1,7 +1,7 @@
 #include "server_boot.h"
 #include "server_listen.h"
 #include "server_menagment.h"
-
+#include <errno.h>
 #include <utility.h>
 #include <threads.h>
 
@@ -52,7 +52,7 @@ static inline int server_bind(ServerS* server_params) {
         sizeof(server_params->address));
 
     if(res) {
-        LOG_ERROR("Can't create socket error: %d", res);
+        LOG_ERROR("Can't bind socket error: %d", res);
         return EBIND;
     }
     else {

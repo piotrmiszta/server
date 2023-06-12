@@ -1,4 +1,6 @@
 build/
 cmake/
 test_build/
+*.log
+*.txt
 
