@@ -1,6 +1,8 @@
 #ifndef UTIL_ERRROR_CODES_H_
 #define UTIL_ERRROR_CODES_H_
 #include <assert.h>
+#include <errno.h>
+#include <string.h>
 /**
  * @file    error_codes.h
  * @brief   specify error codes and useful macros that are helpful to check errors
@@ -18,5 +20,5 @@
 #define ELRAN       (-21) /** @def LIST INDEX IS OUT OF RANGE */
 
 #define assert_ss(cond)   assert(cond) /** @brief use it instead of assert() */
-
+#define print_err()       strerror(errno)
 #endif //UTIL_ERRROR_CODES_H_

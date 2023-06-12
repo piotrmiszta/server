@@ -38,8 +38,10 @@ static inline void main_init(void) {
 
 static void sigint_handler(int sig) {
     assert(sig == SIGINT);
-    LOG_INFO(   "Detected Ctrl-C, closing server, deallcate all memory ...\n"
-                "---------------------------------------------------------\n");
+    LOG_INFO(   "\n"
+                "\t---------------------------------------------------------\n"
+                "\tDetected Ctrl-C, closing server, deallcate all memory ...\n"
+                "\t---------------------------------------------------------\n");
     server_close(&server);
     logger_close();
     exit(0);
