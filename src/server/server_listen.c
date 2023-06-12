@@ -1,5 +1,6 @@
 #include "server_listen.h"
 #include "server_defs.h"
+#include "server_menagment.h"
 #include <utility.h>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -49,7 +50,6 @@ static inline int server_listen_listen(ServerS* server_param) {
                 return EACCT;
             }
             else {
-
                 LOG_INFO("Closing server listen thread");
                 free(client_info);
                 return SUCCESS;
@@ -57,8 +57,13 @@ static inline int server_listen_listen(ServerS* server_param) {
         }
         else {
             LOG_DEBUG("Connection accepted socket: %d", client_info->sock);
-            free(client_info); // this is temporary solution for valgrind
-            return SUCCESS;
+            int res = server_menagment_add_client(client_info);
+            if(res) {
+                return res;
+            }
+            else {
+                return SUCCESS;
+            }
         }
     }
 }

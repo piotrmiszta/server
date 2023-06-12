@@ -69,6 +69,7 @@ int util_list_push_back(ListS* list, void* data) {
         return ELARG;
     }
 }
+
 int util_list_push_front(ListS* list, void* data) {
     if(list) {
         NodeS* node = malloc(sizeof(NodeS));
@@ -96,6 +97,7 @@ int util_list_push_front(ListS* list, void* data) {
         return ELARG;
     }
 }
+
 int util_list_push_index(ListS* list, void* data, size_t index) {
     if(list) {
         if(index < list->size) {
@@ -247,6 +249,7 @@ void* util_list_get_back(ListS* list) {
         return NULL;
     }
 }
+
 void* util_list_get_front(ListS* list) {
     if(list) {
         if(list->head) {
@@ -260,6 +263,7 @@ void* util_list_get_front(ListS* list) {
         return NULL;
     }
 }
+
 void* util_list_get_index(ListS* list, size_t index) {
     if(list) {
         if(index < list->size) {
