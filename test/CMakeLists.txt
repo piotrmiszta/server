@@ -15,7 +15,15 @@ add_cmocka_test(simple_test
   LINK_LIBRARIES ${TEST_LIBS})
 
 add_cmocka_test_environment(simple_test)
-
-
 target_include_directories(simple_test PUBLIC "${TEST_DIRS}")
+
+add_cmocka_test(util_list_test
+  SOURCES ${TEST_DIR}/util_list_test.c
+  COMPILE_OPTIONS ${DEFAULT_C_COMPILE_FLAGS}
+  LINK_OPTIONS ${DEFAULT_LINK_FLAGS}
+  LINK_LIBRARIES ${TEST_LIBS})
+
+add_cmocka_test_environment(util_list_test)
+target_include_directories(util_list_test PUBLIC "${TEST_DIRS}")
+
 

@@ -4,7 +4,8 @@
 #include <stdint.h>
 #include <cmocka.h>
 #include <stdlib.h>
-void simple_test_fun(void** state) {
+static void simple_test_fun(void** state) {
+  (void)state;
     assert_int_equal(1,1);
 }
 
