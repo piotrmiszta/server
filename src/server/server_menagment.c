@@ -3,24 +3,57 @@
 #include "error_codes.h"
 #include "client_connection.h"
 #include "util_list.h"
-#include <time.h> //for thrd_sleep
-#include <utility.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include <time.h> //for thrd_sleep()
+#include <utility.h> //for loger()
+#include <stdlib.h> //for free()
+#include <unistd.h> //for write()
 
 /* *****************************************************************************************
  * static global variable declaration
 ***************************************************************************************** */
 static bool server_menagment_run = true;
 static ListS* client_list = NULL;
+
 /* *****************************************************************************************
  * static function declaration
 ***************************************************************************************** */
+/**
+ * @brief   function used in client list,
+ * @param [in] client_struct pointer to ServerConnections* casted to void
+ * @param [in] thread_id pointer to thrd_t casted to void
+ * @return  integer, 0 if thrd_t in client_struct is the same value as *thread_id
+ *          -1 othrewise
+ *
+ * @see ServerConnectionS
+*/
 static inline int server_menagment_thread_comp(void* client_struct, void* thread_id);
+
+/**
+ * @brief   function used in client list, free ServerConnectionS and destroy mutex
+ * @param [in] arg pointer to ServerConnectionS casted to void
+*/
 static inline void server_menagment_thread_free(void* arg);
+
+/**
+ * @brief   function pop from client list all clients and ending their threads
+ * @return  0 on success, error_code otherwise
+*/
 static inline int server_menagment_close_all_client(void);
+
+/**
+ * @brief   function check connection of all clients
+ *          if can't connect ending client thread
+ * @return  0 on success, error_code otherwise
+*/
 static inline int server_menagment_check_connection(void);
+
+/**
+ * @brief   function end connection with client by end client thread
+ * @param [in] client pointer to ServerConnectionS*, with client information we want end job
+ * @return  0 on success, error_code otherwise
+*/
 static inline int server_menagment_end_client_thread(ServerConnectionS* client);
+
 /* *****************************************************************************************
  * global function definition
 ***************************************************************************************** */
@@ -62,6 +95,9 @@ int server_menagment_add_client(ServerConnectionS* client) {
     return SUCCESS;
 }
 
+/* *****************************************************************************************
+ * static function definition
+***************************************************************************************** */
 static inline int server_menagment_close_all_client(void) {
     /* check number of clients */
     size_t nr_clients = util_list_get_size(client_list);

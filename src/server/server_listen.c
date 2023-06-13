@@ -7,9 +7,14 @@
 #include <stdbool.h>
 #include "error_codes.h"
 #include <stdlib.h>
-#define SERVER_LISTEN_MAX  5   /** @def Max server listen */
-static bool server_listen_run = 1;
 
+#define SERVER_LISTEN_MAX  5   /** @def Max server listen */
+
+static bool server_listen_run = 1;
+/**
+ * @brief function listen to client and accept incoming connection
+ * @param [in] server_param pointer to ServerS* with server information
+*/
 static inline int server_listen_listen(ServerS* server_param);
 
 int server_listen_start_thread(void* arg) {
@@ -20,6 +25,12 @@ int server_listen_start_thread(void* arg) {
         server_listen_listen(server_param);
     }
     return 0;
+}
+
+void server_listen_end_thread(int sock) {
+    // need to destroy socket so this function need to get sock
+    server_listen_run = 0;
+    shutdown(sock, 2);
 }
 
 static inline int server_listen_listen(ServerS* server_param) {
@@ -68,8 +79,4 @@ static inline int server_listen_listen(ServerS* server_param) {
     }
 }
 
-void server_listen_end_thread(int sock) {
-    // need to destroy socket so this function need to get sock
-    server_listen_run = 0;
-    shutdown(sock, 2);
-}
+
