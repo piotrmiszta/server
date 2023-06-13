@@ -26,7 +26,7 @@ static inline int server_listen_listen(ServerS* server_param) {
     LOG_DEBUG("Server listen ...");
     int res = listen(server_param->sock, SERVER_LISTEN_MAX);
     if(res < 0 && (server_listen_run == true)) {
-        LOG_ERROR("Error when listening error: %d", res);
+        LOG_ERROR("Error when listening error: %s", print_err());
         return ELIST;
     }
     else if (res < 0 && (server_listen_run == false)) {
@@ -45,7 +45,7 @@ static inline int server_listen_listen(ServerS* server_param) {
         /* check connection */
         if(client_info->sock <= 0) {
             if(server_listen_run) {
-                LOG_ERROR("Can't accept new client, error: %d", client_info->sock);
+                LOG_ERROR("Can't accept new client, error: %s", print_err());
                 free(client_info);
                 return EACCT;
             }

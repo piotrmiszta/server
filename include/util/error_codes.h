@@ -15,10 +15,11 @@
 #define EF_SB       (-4) /** @def ERROR FUNCTION SERVER BOOT */
 #define ELIST       (-5) /** @def ERROR WHEN LISTENING */
 #define EACCT       (-6) /** @def ERROR WHEN ACCEPTING NEW CLIENT */
+#define ESCAD       (-7) /** @def ERRIR WHEN PUSHING CLIENT PARAMS TO LIST */
 
 #define ELARG       (-20) /** @def NULL ARGUEMNT 'LIST' PASSED TO LIST FUNCTION */
 #define ELRAN       (-21) /** @def LIST INDEX IS OUT OF RANGE */
 
 #define assert_ss(cond)   assert(cond) /** @brief use it instead of assert() */
-#define print_err()       strerror(errno)
+#define print_err()       strerror(errno) /** @brief generate string with error msg */
 #endif //UTIL_ERRROR_CODES_H_

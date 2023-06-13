@@ -53,7 +53,8 @@ int server_menagment_add_client(ServerConnectionS* client) {
     util_list_push_back(client_list, client);
     int res = thrd_create(&client->thread, client_connection_start_thread, client);
     if(res) {
-        LOG_ERROR("Can't create new thread for client error: %d", res);
+        LOG_ERROR("Can't create new thread for client error: %s", print_err());
+        return ESCAD;
     }
     else {
         LOG_INFO("Successfull created new thread: %d, for client: sock = %d", client->thread, client->sock);
@@ -95,8 +96,15 @@ static inline int server_menagment_check_connection(void) {
     size_t nr_clients = util_list_get_size(client_list);
     for(size_t i = 0; i < nr_clients; i++) {
         ServerConnectionS* client = util_list_get_back(client_list);
-        uint16_t msg = 0xFF;
-        ssize_t writed = write(client->sock, &msg, sizeof(uint16_t));
+        /*  this is temporary solution, uint64_t will be msg payload,
+            always when sending msg, first send size of sending msg, and its uint64_t
+            this always need to be protected by mutex, if not this thread can send testing msg
+            between sending size and payload. Now send uint64_t (size) = 0x00,
+            this never can happen to send 0 payload so its good point to test connection bcs
+            client can ignore this value
+            TODO: Change uint64_t to size type if its will be implemented */
+        uint64_t msg = 0x00;
+        ssize_t writed = write(client->sock, &msg, sizeof(uint64_t));
         if(writed == -1) {
             /* end thread */
             LOG_INFO("Client is not reachable err: %s, ending thread ", print_err());

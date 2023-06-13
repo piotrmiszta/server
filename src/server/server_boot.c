@@ -36,7 +36,7 @@ int server_boot(ServerS* server_params) {
 static inline int server_socket(int* sock) {
     int res = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if(res <= 0) {
-        LOG_ERROR("Can't create socket error: %d", res);
+        LOG_ERROR("Can't create socket error: %s", print_err());
         return ESOCK;
     }
     else {
@@ -52,7 +52,7 @@ static inline int server_bind(ServerS* server_params) {
         sizeof(server_params->address));
 
     if(res) {
-        LOG_ERROR("Can't bind socket error: %d", res);
+        LOG_ERROR("Can't bind socket error: %s", print_err());
         return EBIND;
     }
     else {
