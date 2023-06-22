@@ -7,9 +7,14 @@
 #include <stdbool.h>
 #include "error_codes.h"
 #include <stdlib.h>
-#define SERVER_LISTEN_MAX  5   /** @def Max server listen */
-static bool server_listen_run = 1;
 
+#define SERVER_LISTEN_MAX  5   /** @def Max server listen */
+
+static bool server_listen_run = 1;
+/**
+ * @brief function listen to client and accept incoming connection
+ * @param [in] server_param pointer to ServerS* with server information
+*/
 static inline int server_listen_listen(ServerS* server_param);
 
 int server_listen_start_thread(void* arg) {
@@ -22,11 +27,17 @@ int server_listen_start_thread(void* arg) {
     return 0;
 }
 
+void server_listen_end_thread(int sock) {
+    // need to destroy socket so this function need to get sock
+    server_listen_run = 0;
+    shutdown(sock, 2);
+}
+
 static inline int server_listen_listen(ServerS* server_param) {
     LOG_DEBUG("Server listen ...");
     int res = listen(server_param->sock, SERVER_LISTEN_MAX);
     if(res < 0 && (server_listen_run == true)) {
-        LOG_ERROR("Error when listening error: %d", res);
+        LOG_ERROR("Error when listening error: %s", print_err());
         return ELIST;
     }
     else if (res < 0 && (server_listen_run == false)) {
@@ -45,7 +56,7 @@ static inline int server_listen_listen(ServerS* server_param) {
         /* check connection */
         if(client_info->sock <= 0) {
             if(server_listen_run) {
-                LOG_ERROR("Can't accept new client, error: %d", client_info->sock);
+                LOG_ERROR("Can't accept new client, error: %s", print_err());
                 free(client_info);
                 return EACCT;
             }
@@ -68,8 +79,4 @@ static inline int server_listen_listen(ServerS* server_param) {
     }
 }
 
-void server_listen_end_thread(int sock) {
-    // need to destroy socket so this function need to get sock
-    server_listen_run = 0;
-    shutdown(sock, 2);
-}
+

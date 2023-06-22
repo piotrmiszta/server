@@ -6,14 +6,39 @@
 #include <threads.h>
 
 #define SERVER_PORT     8080
-
-static inline int server_socket(int* sock);
-static inline int server_bind(ServerS* server_params);
-static inline int server_param(ServerS* server_params);
-
+/* *****************************************************************************************
+ * static global variable declaration
+***************************************************************************************** */
 static thrd_t thread_server_listen;
 static thrd_t thread_server_menagment;
 
+/* *****************************************************************************************
+ * static function declaration
+***************************************************************************************** */
+/**
+ * @brief   function create socket, wraper to socket()
+ * @param [out] sock socket description
+ * @return 0 on success error_code otherwise
+*/
+static inline int server_socket(int* sock);
+
+/**
+ * @brief function bind with port wrapper to bind()
+ * @param [in] server_params pointer to ServerS with information about server
+ * @return 0 on success error_code otherwise
+*/
+static inline int server_bind(ServerS* server_params);
+
+/**
+ * @brief function assign params to server struct
+ * @param [out] server_params pointer to ServerS* struct
+ * @return 0 on success error_code otherwise
+*/
+static inline int server_param(ServerS* server_params);
+
+/* *****************************************************************************************
+ * global function definition
+***************************************************************************************** */
 int server_boot(ServerS* server_params) {
     if(!server_params) {
         return ENARG;
@@ -33,10 +58,21 @@ int server_boot(ServerS* server_params) {
     }
 }
 
+int server_close(ServerS* params) {
+    server_menagment_end_thread();
+    server_listen_end_thread(params->sock);
+    thrd_join(thread_server_menagment, NULL);
+    thrd_join(thread_server_listen, NULL);
+    return SUCCESS;
+}
+
+/* *****************************************************************************************
+ * static function definition
+***************************************************************************************** */
 static inline int server_socket(int* sock) {
     int res = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if(res <= 0) {
-        LOG_ERROR("Can't create socket error: %d", res);
+        LOG_ERROR("Can't create socket error: %s", print_err());
         return ESOCK;
     }
     else {
@@ -52,7 +88,7 @@ static inline int server_bind(ServerS* server_params) {
         sizeof(server_params->address));
 
     if(res) {
-        LOG_ERROR("Can't bind socket error: %d", res);
+        LOG_ERROR("Can't bind socket error: %s", print_err());
         return EBIND;
     }
     else {
@@ -75,10 +111,4 @@ static inline int server_param(ServerS* server_params) {
     return SUCCESS;
 }
 
-int server_close(ServerS* params) {
-    server_menagment_end_thread();
-    server_listen_end_thread(params->sock);
-    thrd_join(thread_server_menagment, NULL);
-    thrd_join(thread_server_listen, NULL);
-    return SUCCESS;
-}
+
