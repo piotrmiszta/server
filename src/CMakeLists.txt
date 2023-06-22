@@ -11,4 +11,6 @@ add_library(serverlib STATIC ${src} ${HEADER_LIST})
 
 target_include_directories(serverlib PUBLIC ${INCLUDE_DIR}/server/
 											${INCLUDE_DIR}/util
-											${INCLUDE_DIR}/client)
+											${INCLUDE_DIR}/client
+											${INCLUDE_DIR}/messages
+											)

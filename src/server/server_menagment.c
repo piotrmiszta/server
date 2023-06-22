@@ -139,11 +139,18 @@ static inline int server_menagment_check_connection(void) {
             this never can happen to send 0 payload so its good point to test connection bcs
             client can ignore this value
             TODO: Change uint64_t to size type if its will be implemented */
-        uint64_t msg = 0x00;
-        ssize_t writed = write(client->sock, &msg, sizeof(uint64_t));
-        if(writed == -1) {
-            /* end thread */
-            LOG_INFO("Client is not reachable err: %s, ending thread ", print_err());
+        if(client->thread_run) {
+            uint64_t msg = 0x00;
+            ssize_t writed = send(client->sock, &msg, sizeof(uint64_t), MSG_NOSIGNAL);
+            if(writed == -1) {
+                /* end thread */
+                LOG_INFO("Client is not reachable err: %s, ending thread ", print_err());
+                client = util_list_pop_back(client_list);
+                server_menagment_end_client_thread(client);
+            }
+        }
+        else {
+            LOG_INFO("Client is not reachablee thread was end previous, free space for client");
             client = util_list_pop_back(client_list);
             server_menagment_end_client_thread(client);
         }
