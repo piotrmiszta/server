@@ -90,7 +90,7 @@ int server_menagment_add_client(ServerConnectionS* client) {
         return ESCAD;
     }
     else {
-        LOG_INFO("Successfull created new thread: %d, for client: sock = %d", client->thread, client->sock);
+        LOG_INFO("Successfull created new thread: %lu, for client: sock = %d", client->thread, client->sock);
     }
     return SUCCESS;
 }

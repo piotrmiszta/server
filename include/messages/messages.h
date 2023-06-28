@@ -29,6 +29,11 @@ typedef enum MessageTypeE{
 
 typedef enum MessageRequestTypeE{
     MESSAGE_REQUEST_TYPE_AUTH = 0,
+    MESSAGE_REQUEST_TYPE_FILE,
+    MESSAGE_REQUEST_TYPE_GET_DIR,
+    MESSAGE_REQUEST_TYPE_DEL_FILE,
+    MESSAGE_REQUEST_TYPE_DEL_DIR,
+    MESSAGE_REQUEST_TYPE_INFO,
 }MessageRequestTypeE;
 
 #define PAYLOAD_SIZE_MAX        (1000)
