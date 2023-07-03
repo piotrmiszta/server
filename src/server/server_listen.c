@@ -7,8 +7,15 @@
 #include <stdbool.h>
 #include "error_codes.h"
 #include <stdlib.h>
+#include <time.h> //for thrd_sleep()
 
 #define SERVER_LISTEN_MAX  5   /** @def Max server listen */
+
+/**
+ * @brief setting sockoptions to incoming socket
+ * @param [in] sock socket description
+*/
+static int server_listen_set_sockopt(int sock);
 
 static bool server_listen_run = 1;
 /**
@@ -68,6 +75,8 @@ static inline int server_listen_listen(ServerS* server_param) {
         }
         else {
             LOG_DEBUG("Connection accepted socket: %d", client_info->sock);
+            /* seting sock options */
+            server_listen_set_sockopt(client_info->sock);
             int res = server_menagment_add_client(client_info);
             if(res) {
                 return res;
@@ -79,4 +88,11 @@ static inline int server_listen_listen(ServerS* server_param) {
     }
 }
 
-
+int server_listen_set_sockopt(int sock) {
+    struct timespec time = {.tv_sec = 3, .tv_nsec = 0};
+    if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &time, sizeof(struct timespec)) ) {
+        LOG_ERROR("Can't set new SO_RCVTIMEO value to sock = %d, error: %s", sock, print_err());
+        return FAILURE;
+    }
+    return SUCCESS;
+}

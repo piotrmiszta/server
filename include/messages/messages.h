@@ -39,6 +39,6 @@ void messages_free(MessageS* msg);
 int messages_set_payload(MessageS* message, void* payload_in, payload_size_t size);
 int messages_get_payload(MessageS* message, void* payload_out);
 
-MessageS* messages_read(int sock);
+MessageS* messages_read(const int sock, int* err);
 ssize_t messages_write(int sock, MessageS* msg);
 #endif // MESSAGES_H_

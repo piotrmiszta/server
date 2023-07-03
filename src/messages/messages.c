@@ -28,7 +28,7 @@ int messages_get_payload(MessageS* message, void* payload_out) {
     return SUCCESS;
 }
 
-MessageS* messages_read(int sock) {
+MessageS* messages_read(const int sock, int* err) {
     payload_size_t payload_size;
     ssize_t recv_val = recv(sock, &payload_size, sizeof(payload_size), MSG_NOSIGNAL);
     size_t msg_size = MSG_SIZE(payload_size);
@@ -43,15 +43,30 @@ MessageS* messages_read(int sock) {
             LOG_TRACE("Recaived msg size = %d, type = %d, req_type = %d", msg_recv,
                 msg->header.msg_type,
                 msg->header.req_type);
+            *err = SUCCESS;
             return msg;
         }
         else {
-            LOG_ERROR("Failed to read msg!!!");
-            return NULL;
+            if(errno == EAGAIN || errno == EWOULDBLOCK || errno == EINPROGRESS) {
+                LOG_WARNING("Timeout reached for message read, errno = %s", print_err());
+                *err = ERTIMO;
+            }
+            else {
+                LOG_ERROR("Failed to read msg!!! error: %s", print_err());
+                *err = EREAD;
+            }
+            return NULL; 
         }
     }
     else {
-        LOG_ERROR("Failed to read msg SIZE!!!");
+        if(errno == EAGAIN || errno == EWOULDBLOCK || errno == EINPROGRESS) {
+            LOG_WARNING("Timeout reached for message size read, errno = %s", print_err());
+            *err = ERTIMO;
+        }
+        else {
+            LOG_ERROR("Failed to read msg size!!! error: %s", print_err());
+            *err = EREAD;
+        }
         return NULL;
     }
 }
@@ -79,3 +94,5 @@ ssize_t messages_write(int sock, MessageS* msg) {
         return send_size_val;
     }
 }
+
+

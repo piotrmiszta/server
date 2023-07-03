@@ -162,6 +162,7 @@ static inline int server_menagment_end_client_thread(ServerConnectionS* client) 
     int client_status;
     client->thread_run = false;
     mtx_lock(&client->mutex);
+    // need to send something like 1 byte to get client thread from beeing in read function
     thrd_join(client->thread, &client_status);
     mtx_unlock(&client->mutex);
     /* destroy this function */
