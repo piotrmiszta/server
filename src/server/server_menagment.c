@@ -52,7 +52,7 @@ static inline int server_menagment_check_connection(void);
  * @param [in] client pointer to ServerConnectionS*, with client information we want end job
  * @return  0 on success, error_code otherwise
 */
-static inline int server_menagment_end_client_thread(ServerConnectionS* client);
+static inline int server_menagment_end_client_thread(ServerConnectionS client[static 1]);
 
 /* *****************************************************************************************
  * global function definition
@@ -78,7 +78,7 @@ void server_menagment_end_thread(void) {
     server_menagment_run = 0;
 }
 
-int server_menagment_add_client(ServerConnectionS* client) {
+int server_menagment_add_client(ServerConnectionS client[static 1]) {
     assert_ss(client_list);
     assert_ss(client);
     client->thread_run = true;
@@ -158,7 +158,7 @@ static inline int server_menagment_check_connection(void) {
     return SUCCESS;
 }
 
-static inline int server_menagment_end_client_thread(ServerConnectionS* client) {
+static inline int server_menagment_end_client_thread(ServerConnectionS client[static 1]) {
     int client_status;
     client->thread_run = false;
     mtx_lock(&client->mutex);

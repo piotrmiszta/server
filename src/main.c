@@ -9,7 +9,7 @@
 static inline void main_init(void);
 //static inline void main_destroy(void);
 
-static ServerS server;
+static ServerS server = {0};
 
 static void sigint_handler(int sig);
 

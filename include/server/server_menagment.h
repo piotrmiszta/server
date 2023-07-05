@@ -34,6 +34,6 @@ void server_menagment_end_thread(void);
  * @see     ServerConnectionS
  *
 */
-int server_menagment_add_client(ServerConnectionS* client);
+int server_menagment_add_client(ServerConnectionS client[static 1]);
 
 #endif //SERVER_MENAGMENT_H_

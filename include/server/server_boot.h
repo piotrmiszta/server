@@ -19,7 +19,7 @@
  * @see error_codes.h
  * @see ServerS
 */
-int server_boot(ServerS* server_params);
+int server_boot(ServerS server_params[static 1]);
 /**
  * @brief   closing server that means closing server_menagment thread
  *          and closing server_listen thread
@@ -31,6 +31,6 @@ int server_boot(ServerS* server_params);
  * @see server_menagment_end_thread
  * @see server_listen_end_thread
 */
-int server_close(ServerS* server_params);
+int server_close(ServerS server_params[static 1]);
 
 #endif // SERVER_BOOT_H_

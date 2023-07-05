@@ -20,45 +20,41 @@ static thrd_t thread_server_menagment;
  * @param [out] sock socket description
  * @return 0 on success error_code otherwise
 */
-static inline int server_socket(int* sock);
+static inline int server_socket(int sock[static 1]);
 
 /**
  * @brief function bind with port wrapper to bind()
  * @param [in] server_params pointer to ServerS with information about server
  * @return 0 on success error_code otherwise
 */
-static inline int server_bind(ServerS* server_params);
+static inline int server_bind(ServerS server_params[static 1]);
 
 /**
  * @brief function assign params to server struct
  * @param [out] server_params pointer to ServerS* struct
  * @return 0 on success error_code otherwise
 */
-static inline int server_param(ServerS* server_params);
+static inline int server_param(ServerS server_params[static 1]);
 
 /* *****************************************************************************************
  * global function definition
 ***************************************************************************************** */
-int server_boot(ServerS* server_params) {
-    if(!server_params) {
-        return ENARG;
+int server_boot(ServerS server_params[static 1]) {
+    server_param(server_params);
+    if(server_socket(&server_params->sock)) {
+        return EF_SB;
     }
-    else {
-        server_param(server_params);
-        if(server_socket(&server_params->sock)) {
-            return EF_SB;
-        }
-        if(server_bind(server_params)) {
-            return EF_SB;
-        }
-        thrd_create(&thread_server_listen, server_listen_start_thread, server_params);
-        thrd_create(&thread_server_menagment, server_menagment_start_thread, server_params);
-        LOG_INFO("Successful booting server !!!");
-        return SUCCESS;
+    if(server_bind(server_params)) {
+        return EF_SB;
     }
+    thrd_create(&thread_server_listen, server_listen_start_thread, server_params);
+    thrd_create(&thread_server_menagment, server_menagment_start_thread, server_params);
+    LOG_INFO("Successful booting server !!!");
+    return SUCCESS;
+
 }
 
-int server_close(ServerS* params) {
+int server_close(ServerS params[static 1]) {
     server_menagment_end_thread();
     server_listen_end_thread(params->sock);
     thrd_join(thread_server_menagment, NULL);
@@ -69,7 +65,7 @@ int server_close(ServerS* params) {
 /* *****************************************************************************************
  * static function definition
 ***************************************************************************************** */
-static inline int server_socket(int* sock) {
+static inline int server_socket(int sock[static 1]) {
     int res = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if(res <= 0) {
         LOG_ERROR("Can't create socket error: %s", print_err());
@@ -82,7 +78,7 @@ static inline int server_socket(int* sock) {
     }
 }
 
-static inline int server_bind(ServerS* server_params) {
+static inline int server_bind(ServerS server_params[static 1]) {
     int res = bind(server_params->sock,
         (struct sockaddr*)(&server_params->address),
         sizeof(server_params->address));
@@ -97,7 +93,7 @@ static inline int server_bind(ServerS* server_params) {
     }
 }
 
-static inline int server_param(ServerS* server_params) {
+static inline int server_param(ServerS server_params[static 1]) {
     server_params->address.sin_family = AF_INET;
     server_params->address.sin_addr.s_addr = INADDR_ANY;
     server_params->address.sin_port = htons(SERVER_PORT);

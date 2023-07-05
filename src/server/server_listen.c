@@ -22,7 +22,7 @@ static bool server_listen_run = 1;
  * @brief function listen to client and accept incoming connection
  * @param [in] server_param pointer to ServerS* with server information
 */
-static inline int server_listen_listen(ServerS* server_param);
+static inline int server_listen_listen(const ServerS server_param[static 1]);
 
 int server_listen_start_thread(void* arg) {
     assert_ss(arg);
@@ -40,7 +40,7 @@ void server_listen_end_thread(int sock) {
     shutdown(sock, 2);
 }
 
-static inline int server_listen_listen(ServerS* server_param) {
+static inline int server_listen_listen(const ServerS server_param[static 1]) {
     LOG_DEBUG("Server listen ...");
     int res = listen(server_param->sock, SERVER_LISTEN_MAX);
     if(res < 0 && (server_listen_run == true)) {
