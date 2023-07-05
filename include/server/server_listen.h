@@ -10,7 +10,7 @@
  *          this thread is used to listen for client connection, accept this connection
  *          and call server_menagment_add_client function if accept was successful
  *
- * @param [in] pointer to ServerS casted to arg with server infromation
+ * @param [in] arg pointer to ServerS casted to arg with server infromation
  * @return integer, 0 on success or error code
  *
  * @see error_codes.h

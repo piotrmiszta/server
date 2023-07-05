@@ -4,8 +4,8 @@ project(${PROJ_NAME})
 
 set(CMAKE_C_STANDARD 17)
 #set(CMAKE_C_COMPILER clang)
-#set(CMAKE_C_FLAGS "-Weverything -Wno-declaration-after-statement -Wno-date-time -g -Wno-disabled-macro-expansion")
-set(CMAKE_C_FLAGS "-Wall -pedantic -g -Werror -lm")
+set(CMAKE_C_FLAGS "-Weverything -Wno-declaration-after-statement -Wno-date-time -g -Wno-disabled-macro-expansion -O3")
+#set(CMAKE_C_FLAGS "-Wall -pedantic -g -Werror -lm -O3 -Wno-non-literal-null-conversion")
 add_subdirectory(src)
 
 add_executable(${PROJ_NAME} src/main.c)

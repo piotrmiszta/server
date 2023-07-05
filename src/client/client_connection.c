@@ -23,22 +23,22 @@ int client_connection_start_thread(void* arg) {
                 break;
             }
             else {
-                //reached timout
+                //reached timeout
                 continue;
             }
         }
         MessageS* msg_out = client_connection_parse_msg(msg_in);
         if(msg_out) {
             messages_write(client->sock, msg_out);
+            messages_free(msg_out);
         }
         messages_free(msg_in);
-        messages_free(msg_out);
     }
     return 0;
 }
 
 MessageS* client_connection_parse_msg(MessageS* msg_in) {
-    MessageS* msg_out;
+    MessageS* msg_out = NULL;
     switch(msg_in->header.msg_type) {
         case MESSAGE_TYPE_REQ:
             LOG_TRACE("Recaived message, type: req");

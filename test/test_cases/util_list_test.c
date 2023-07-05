@@ -25,6 +25,7 @@ static inline int cmp(void* a, void* b) {
 }
 
 static void push_pop_back (void** state) {
+    (void)state;
     ListS* list = util_list_create(free, NULL);
     for(int i = 0; i < 10; i++) {
         test* temp;
@@ -42,6 +43,7 @@ static void push_pop_back (void** state) {
 }
 
 static void push_pop_front (void** state) {
+    (void)state;
     ListS* list = util_list_create(free, NULL);
     for(int i = 0; i < 10; i++) {
         test* temp;
@@ -59,6 +61,7 @@ static void push_pop_front (void** state) {
 }
 
 static void push_pop_index (void** state) {
+    (void)state;
     ListS* list = util_list_create(free, NULL);
     for(int i = 0; i < 10; i++) {
         test* temp;
@@ -77,6 +80,7 @@ static void push_pop_index (void** state) {
 }
 
 static void push_pop_index_2 (void** state) {
+    (void)state;
     ListS* list = util_list_create(free, NULL);
     for(int i = 0; i < 10; i++) {
         test* temp;
@@ -102,6 +106,7 @@ static void push_pop_index_2 (void** state) {
 }
 
 static void push_destroy (void** state) {
+    (void)state;
     ListS* list = util_list_create(free, NULL);
     for(int i = 0; i < 10; i++) {
         test* temp;
@@ -114,6 +119,7 @@ static void push_destroy (void** state) {
 }
 
 static void push_find (void** state) {
+    (void)state;
     ListS* list = util_list_create(free, cmp);
     for(int i = 0; i < 10; i++) {
         test* temp;

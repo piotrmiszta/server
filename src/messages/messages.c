@@ -31,7 +31,7 @@ int messages_get_payload(MessageS* message, void* payload_out) {
 MessageS* messages_read(const int sock, int* err) {
     payload_size_t payload_size;
     ssize_t recv_val = recv(sock, &payload_size, sizeof(payload_size), MSG_NOSIGNAL);
-    size_t msg_size = MSG_SIZE(payload_size);
+    uint16_t msg_size = MSG_SIZE(payload_size);
     if(recv_val > 0) {
         /* read */
 

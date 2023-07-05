@@ -111,7 +111,7 @@ int util_list_push_index(ListS* list, void* data, size_t index) {
             }
             else {
                 NodeS* node = list->head;
-                for(int i = 0; i < index - 1; i++) {
+                for(size_t i = 0; i < index - 1; i++) {
                     node = node->next;
                 }
                 NodeS* newNode = malloc(sizeof(NodeS));
@@ -216,7 +216,7 @@ void* util_list_pop_index(ListS* list, size_t index) {
             }
             else {
                 NodeS* temp = list->head;
-                for(int i = 0; i < index; i++) {
+                for(size_t i = 0; i < index; i++) {
                     temp = temp->next;
                 }
                 void* ret = temp->data;
@@ -275,7 +275,7 @@ void* util_list_get_index(ListS* list, size_t index) {
             }
             else {
                 NodeS* temp = list->head;
-                for(int i = 0; i < index; i++) {
+                for(size_t i = 0; i < index; i++) {
                     temp = temp->next;
                 }
                 return temp->data;
@@ -290,17 +290,17 @@ void* util_list_get_index(ListS* list, size_t index) {
     }
 }
 
-int util_list_find(ListS* list, void* data) {
+long long int util_list_find(ListS* list, void* data) {
     if(list) {
         if(list->comp_fun == NULL) {
             return -1;
         }
         NodeS* node = list->head;
-        for(int i = 0; i < list->size; i++) {
+        for(size_t i = 0; i < list->size; i++) {
             int result = list->comp_fun(node->data, data);
             node = node->next;
             if(result == 0) {
-                return i;
+                return (long long int)i;
             }
         }
     }

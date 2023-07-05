@@ -94,7 +94,7 @@ void* util_list_get_index(ListS* list, size_t index);
  * @param [in] data pointer to data which will be find
  * @return index of finded value or -1 if not find
 */
-int util_list_find(ListS* list, void* data);
+long long int util_list_find(ListS* list, void* data);
 /**
  * @brief returning size of list
  * @param [in] list pointer to list

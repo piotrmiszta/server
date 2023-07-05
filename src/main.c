@@ -7,13 +7,13 @@
 #include "error_codes.h"
 #define VALGRIND
 static inline void main_init(void);
-static inline void main_destroy(void);
+//static inline void main_destroy(void);
 
 static ServerS server;
 
 static void sigint_handler(int sig);
 
-int main() {
+int main(void) {
 
     struct sigaction act = {0};
     act.sa_handler = sigint_handler;
@@ -51,6 +51,6 @@ static void sigint_handler(int sig) {
     exit(0);
 }
 
-static inline void main_destroy(void) {
+/*static inline void main_destroy(void) {
     logger_close();
-}
+}*/
