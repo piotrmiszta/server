@@ -41,23 +41,23 @@ typedef struct{
  * @brief   messages_handle_file_info_req handling file info request
  *          checking permission, file owner's, and file exisit, and created msg_out
  *          based on this information and request option
- * @param   payload payload from recaived request message
+ * @param   msg_in pointer to MessageS* with payload recaived request message
  * @return  pointer to MessageS to response for request, cfm or rej
 */
-MessageS* messages_handle_file_info_req(ReqFileInfoPayloadS* payload);
+MessageS* messages_handle_file_info_req(const MessageS* msg_in);
 
 /**
  * @brief handle response for request if it was cfm,
  *          payload is based on option
- * @param payload pointer to payload recv in message
+ * @param msg_in pointer to MessageS with confirmation
  * @param opt option send in request.
  * @return //TODO: will we send next message ?
 */
-MessageS* messages_handle_file_info_cfm(void* payload, uint8_t opt);
+MessageS* messages_handle_file_info_cfm(const MessageS* msg_in, uint8_t opt);
 
 /**
  * @brief handling rej
  * @param payload pointer to RejFileInfoPayloadS contain info about rejection
 */
-MessageS* messages_handle_file_info_rej(RejFileInfoPayloadS* payload);
+MessageS* messages_handle_file_info_rej(const MessageS* msg_in);
 #endif //MESSAGES_FILE_INFO_H_

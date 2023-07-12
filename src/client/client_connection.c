@@ -9,7 +9,7 @@
 #include <threads.h>
 #include <unistd.h>
 
-static MessageS* client_connection_parse_msg(MessageS* msg_in);
+static MessageS* client_connection_parse_msg(const MessageS* msg_in);
 
 int client_connection_start_thread(void* arg) {
     ServerConnectionS* client = arg;
@@ -37,7 +37,7 @@ int client_connection_start_thread(void* arg) {
     return 0;
 }
 
-MessageS* client_connection_parse_msg(MessageS* msg_in) {
+MessageS* client_connection_parse_msg(const MessageS* msg_in) {
     MessageS* msg_out = NULL;
     switch(msg_in->header.msg_type) {
         case MESSAGE_TYPE_REQ:

@@ -21,6 +21,11 @@ typedef struct ServerS {
     int sock;
 }ServerS;
 
+typedef struct ClientIdentityS{
+    bool valid;
+    char login[20];
+}ClientIdentityS;
+
 /**
  * @struct ServerConnectionS
  * @brief   used to store information and useful variables for each client connected
@@ -40,7 +45,7 @@ typedef struct ServerConnectionS{
     thrd_t thread;
     mtx_t mutex;
     bool thread_run;
-    char padded_[7];
+    ClientIdentityS identity;
 }ServerConnectionS;
 
 #endif //SERVER_DEFS_H_

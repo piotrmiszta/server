@@ -15,13 +15,13 @@ void messages_free(MessageS* msg) {
     free(msg);
 }
 
-int messages_set_payload(MessageS* message, void* payload_in, payload_size_t size) {
+int messages_set_payload(MessageS* message, const void* payload_in, payload_size_t size) {
     memcpy(message->payload, payload_in, size);
     message->header.size = size;
     return SUCCESS;
 }
 
-int messages_get_payload(MessageS* message, void* payload_out) {
+int messages_get_payload(const MessageS* message, void* payload_out) {
     assert_ss(message->header.size > 0);
     assert_ss(payload_out);
     memcpy(payload_out, message->payload, message->header.size);

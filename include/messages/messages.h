@@ -67,7 +67,7 @@ void messages_free(MessageS* msg);
  * @return  0 on SUCCESS 
  *          -1 on failure
 */
-int messages_set_payload(MessageS* message, void* payload_in, payload_size_t size);
+int messages_set_payload(MessageS* message, const void* payload_in, payload_size_t size);
 
 /**
  * @brief messages_get_payload function is used to copy payload from message to pointer payload_out
@@ -76,7 +76,7 @@ int messages_set_payload(MessageS* message, void* payload_in, payload_size_t siz
  * @return  0 on success
  *          -1 on failure
 */
-int messages_get_payload(MessageS* message, void* payload_out);
+int messages_get_payload(const MessageS* message, void* payload_out);
 
 /**
  * @brief messages_read function is used to read incoming message

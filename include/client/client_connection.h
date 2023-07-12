@@ -4,6 +4,4 @@
 
 int client_connection_start_thread(void* arg);
 
-
-
 #endif //CLIENT_CONNECTION_H_
