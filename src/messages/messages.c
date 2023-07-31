@@ -34,7 +34,6 @@ MessageS* messages_read(const int sock, int* err) {
     uint16_t msg_size = MSG_SIZE(payload_size);
     if(recv_val > 0) {
         /* read */
-
         LOG_TRACE("Received size of msg payload_size = %u, msg_size = %u", payload_size, msg_size);
         MessageS* msg = messages_alloc(msg_size);
         assert_ss(msg);

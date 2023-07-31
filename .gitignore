@@ -4,3 +4,5 @@ test_build/
 *.log
 *.txt
 .vscode
+cmake-build-debug/
+.idea/

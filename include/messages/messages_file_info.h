@@ -1,6 +1,7 @@
 #ifndef MESSAGES_FILE_INFO_H_
 #define MESSAGES_FILE_INFO_H_
 #include <stdint.h>
+#include "server_defs.h"
 #include "messages.h"
 enum {
     REQ_FILE_INFO_FILE_DESC = 0, 
@@ -11,6 +12,7 @@ enum {
     REJ_FILE_INFO_NOT_PERMISSION = 0,
     REJ_FILE_INFO_NOT_FILE = 1,
     REJ_FILE_INFO_INVALID_PATH = 2,
+    REJ_FILE_INFO_INVALID_OPTION = 3,
 };
 
 typedef struct{
@@ -44,7 +46,7 @@ typedef struct{
  * @param   msg_in pointer to MessageS* with payload recaived request message
  * @return  pointer to MessageS to response for request, cfm or rej
 */
-MessageS* messages_handle_file_info_req(const MessageS* msg_in);
+MessageS* messages_handle_file_info_req(const MessageS* msg_in, const ClientIdentityS* client_info);
 
 /**
  * @brief handle response for request if it was cfm,

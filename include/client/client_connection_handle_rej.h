@@ -2,7 +2,7 @@
 #define CLIENT_CONNECTION_REJ_H_
 #include "messages.h"
 
-MessageS* client_connection_handle_rej(const MessageS* in);
+MessageS* client_connection_handle_rej(const MessageS* in, const ClientIdentityS* client_info);
 
 #endif //CLIENT_CONNECTION_REJ_H_
 

@@ -1,12 +1,11 @@
 #ifndef MESSAGES_H_
 #define MESSAGES_H_
 #include <stdint.h>
-#include "messages.h"
 #include "error_codes.h"
 #include <utility.h>
 #include <unistd.h>
 #include <sys/socket.h>
-
+#include <server_defs.h>
 typedef uint16_t payload_size_t;    /** @typedef type to use with payload size */
 typedef uint16_t request_type_t;    /** @typedef type to use with request type*/
 typedef uint8_t message_type_t;     /** @typedef type to use with message type*/
